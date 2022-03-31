@@ -6,12 +6,15 @@ authors = ["csestelo <sestelos@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+fastapi = "^0.75.0"
+uvicorn = {extras = ["standard"], version = "^0.17.6"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 black = "^22.3.0"
 mypy = "^0.942"
 coverage = "^6.3.2"
+requests = "^2.27.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
