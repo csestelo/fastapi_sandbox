@@ -3,7 +3,7 @@ import pytest
 from httpx import AsyncClient
 
 from config import settings
-from fast_api_sandbox.app import app
+from src.app import app
 
 
 @pytest.fixture
@@ -11,7 +11,7 @@ def anyio_backend():
     """To avoid running tests twice.
     https://anyio.readthedocs.io/en/stable/testing.html#specifying-the-backends-to-run-on
     """
-    return 'asyncio'
+    return "asyncio"
 
 
 @pytest.fixture
