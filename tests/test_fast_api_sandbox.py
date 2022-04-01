@@ -1,14 +1,18 @@
 from http import HTTPStatus
 
+import pytest
 
-def test_home_ping(mocked_client):
-    resp = mocked_client.get("/")
+
+@pytest.mark.anyio
+async def test_home_ping(mocked_client):
+    resp = await mocked_client.get("/")
     assert resp.status_code == HTTPStatus.OK
     assert resp.json() == {"message": "PONG! App running!"}
 
 
-def test_health_check(mocked_client):
+@pytest.mark.anyio
+async def test_health_check(mocked_client):
     # implement real health checks for app
-    resp = mocked_client.get("/")
+    resp = await mocked_client.get("/")
     assert resp.status_code == HTTPStatus.OK
     assert resp.json() == {"message": "PONG! App running!"}
