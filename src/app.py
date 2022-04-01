@@ -1,10 +1,7 @@
 from fastapi import FastAPI
 
+from src.api import health_check
 
 app = FastAPI()
 
-
-@app.get("/")
-@app.get("/health_check")
-async def ping():
-    return {"message": "PONG! App running!"}
+app.include_router(health_check.router)

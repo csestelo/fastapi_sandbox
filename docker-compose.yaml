@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      target: "development"
+    command: "poetry run python -m src"
+    ports:
+      - "5000:5000"
+    environment:
+      PYTHONDONTWRITEBYTECODE: 1
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+
+  db:
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+        POSTGRES_PASSWORD: "postgres"
+        POSTGRES_USER: "postgres"
+        POSTGRES_DB: "register"
