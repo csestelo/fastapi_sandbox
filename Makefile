@@ -1,11 +1,11 @@
-.PHONY: check_all linter_check linter_format test coverage_test type_check run_app_on_docker build_run_app_on_docker run_app
+.PHONY: check_all linter_check format_code test coverage_test type_check run_app_on_docker build_run_app_on_docker run_app
 
 check_all: linter_check test
 
 linter_check:
 	poetry run black --check -l 80 .
 
-linter_format:
+format_code:
 	poetry run black -l 80 .
 
 test:
