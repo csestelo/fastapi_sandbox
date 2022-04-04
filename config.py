@@ -13,7 +13,7 @@ class Config(BaseSettings):
     @property
     def DATABASE_URI(self):
         return URL.create(
-            drivername="postgresql+psycopg2",
+            drivername="postgresql+asyncpg",
             username=self.DB_USERNAME,
             password=self.DB_PASSWORD,
             host=self.DB_HOST,
