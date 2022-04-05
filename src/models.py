@@ -18,13 +18,12 @@ class Customer(Base):
     __tablename__ = "customer"
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), nullable=False)
-    family_name = Column(String)
+    display_name = Column(String, nullable=False)
+    full_name = Column(String, nullable=False)
     doc_number = Column(String, nullable=False)
     doc_type = Column(String, nullable=False)
     age = Column(SmallInteger)
-    # TODO: use UTC to guarantee timezone
-    created_at = Column(DateTime, nullable=False, default=datetime.now)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     address = relationship(
         "Address",
@@ -42,9 +41,10 @@ class Customer(Base):
 
     def __repr__(self):
         return (
-            f"Customer(id={self.id!r}, name={self.name!r}, age={self.age!r}, "
-            f"family_name={self.family_name!r}, document={self.doc_number!r}, "
-            f"doc_type={self.doc_type!r}, created_at={self.created_at!r})"
+            f"Customer(id={self.id!r}, display_name={self.display_name!r}, "
+            f"age={self.age!r}, full_name={self.full_name!r}, "
+            f"document={self.doc_number!r}, doc_type={self.doc_type!r}, "
+            f"created_at={self.created_at!r})"
         )
 
 

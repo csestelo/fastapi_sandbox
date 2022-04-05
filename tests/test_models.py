@@ -7,8 +7,8 @@ from src.models import Customer, Address, PhoneNumber
 @pytest.mark.anyio
 async def test_create_customer(db_session):
     customer = Customer(
-        name="Stout",
-        family_name="Campos",
+        display_name="Stout",
+        full_name="Stout Campos",
         doc_number="12352498301",
         doc_type="cpf",
     )
@@ -17,7 +17,7 @@ async def test_create_customer(db_session):
         session.add(customer)
         await session.commit()
 
-        stmt = select(Customer).where(Customer.name == customer.name)
+        stmt = select(Customer).where(Customer.full_name == customer.full_name)
         result = await session.scalars(stmt)
 
     assert result.unique().one() == customer
@@ -33,8 +33,8 @@ async def test_create_customer_with_address(db_session):
         country="Brazil",
     )
     customer = Customer(
-        name="Britta",
-        family_name="Campos",
+        display_name="Lindona",
+        full_name="Britta Campos",
         doc_number="12352498301",
         doc_type="cpf",
         address=address,
@@ -44,7 +44,7 @@ async def test_create_customer_with_address(db_session):
         session.add(customer)
         await session.commit()
 
-        stmt = select(Customer).where(Customer.name == customer.name)
+        stmt = select(Customer).where(Customer.full_name == customer.full_name)
         result = await session.scalars(stmt)
         got = result.unique().one()
 
@@ -58,8 +58,8 @@ async def test_create_customer_with_phone_number(db_session):
     phone_number2 = PhoneNumber(country_code=49, area_code=199, number=2348602)
 
     customer = Customer(
-        name="Dona Pelú",
-        family_name="Campos",
+        display_name="Dona Pelú",
+        full_name="Dona Pelú Campos",
         doc_number="P55SDEFV1",
         doc_type="Residence Card",
         phone_numbers=[phone_number1, phone_number2],
@@ -69,7 +69,7 @@ async def test_create_customer_with_phone_number(db_session):
         session.add(customer)
         await session.commit()
 
-        stmt = select(Customer).where(Customer.name == customer.name)
+        stmt = select(Customer).where(Customer.full_name == customer.full_name)
         result = await session.scalars(stmt)
         got = result.unique().one()
 
@@ -79,15 +79,16 @@ async def test_create_customer_with_phone_number(db_session):
 
 def test_repr_customer_model():
     customer = Customer(
-        name="Stout",
-        family_name="Campos",
+        display_name="Stout",
+        full_name="Stout Bell",
         doc_number="12352498301",
         doc_type="cpf",
     )
 
     expected_repr = (
-        "Customer(id=None, name='Stout', age=None, family_name='Campos', "
-        "document='12352498301', doc_type='cpf', created_at=None)"
+        "Customer(id=None, display_name='Stout', age=None, "
+        "full_name='Stout Bell', document='12352498301', doc_type='cpf', "
+        "created_at=None)"
     )
 
     assert customer.__repr__() == expected_repr
