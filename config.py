@@ -9,6 +9,7 @@ class Config(BaseSettings):
     DB_USERNAME: str = "postgres"
     DB_PASSWORD: str = "postgres"
     DB_DATABASE: str = "register"
+    DB_ECHO: bool = True
 
     @property
     def DATABASE_URI(self):
