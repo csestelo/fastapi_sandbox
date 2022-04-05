@@ -31,5 +31,6 @@ omit = [".*", "*/site-packages/*", "tests/*"]
 fail_under = 90
 
 [tool.mypy]
-# plugins = "sqlmypy" TODO: search for a better way to use mypy and sqlalchemy
+# sqlalchemy 2.0 will have type hint support built-in, sqlmypy is considered
+# deprecated: https://docs.sqlalchemy.org/en/14/orm/extensions/mypy.html
 ignore_missing_imports = true

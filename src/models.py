@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Any
 
 from sqlalchemy import (
     Column,
@@ -10,8 +11,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship, declarative_base
 
-
-Base = declarative_base()
+Base: Any = declarative_base()
 
 
 class Customer(Base):
