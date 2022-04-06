@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 from config import settings
 from src.app import app
-from src.db_service import db_connection
+from src.services.db import db_connection
 from src.models import Base
 
 
@@ -18,7 +18,7 @@ def anyio_backend():
 
 
 @pytest.fixture
-async def mocked_client(scope="session"):
+async def mocked_client(scope="session") -> AsyncClient:
     async with AsyncClient(
         app=app, base_url=f"http://{settings.APP_HOST}"
     ) as ac:
@@ -27,7 +27,7 @@ async def mocked_client(scope="session"):
 
 @pytest.fixture
 async def db_session(scope="session") -> sessionmaker:
-    engine, session = await db_connection()
+    engine, session = db_connection()
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 

@@ -1,3 +1,5 @@
+import logging
+
 from pydantic import BaseSettings
 from sqlalchemy.engine import URL  # type: ignore
 
@@ -5,11 +7,14 @@ from sqlalchemy.engine import URL  # type: ignore
 class Config(BaseSettings):
     APP_PORT: int = 5000
     APP_HOST: str = "0.0.0.0"
+
     DB_HOST: str = "localhost"
     DB_USERNAME: str = "postgres"
     DB_PASSWORD: str = "postgres"
     DB_DATABASE: str = "register"
     DB_ECHO: bool = True
+
+    LOG_LEVEL: int = logging.INFO
 
     @property
     def DATABASE_URI(self):
@@ -23,3 +28,4 @@ class Config(BaseSettings):
 
 
 settings = Config()
+logger = logging.Logger(name="fastapi_sandbox", level=settings.LOG_LEVEL)
