@@ -1,6 +1,8 @@
 import pytest
 
 from httpx import AsyncClient
+from sqlalchemy import text
+from sqlalchemy.exc import ProgrammingError
 from sqlalchemy.orm import sessionmaker
 
 from config import settings
@@ -26,7 +28,23 @@ async def mocked_client(scope="session") -> AsyncClient:
 
 
 @pytest.fixture
-async def db_session(scope="session") -> sessionmaker:
+async def create_test_database(scope="session"):
+    test_db_name = "test"
+    engine, _ = db_connection()
+    try:
+        async with engine.connect() as conn:
+            await conn.execute(text("commit"))
+            await conn.execute(text(f"CREATE DATABASE {test_db_name}"))
+    except ProgrammingError:
+        # To avoid class 'asyncpg.exceptions.DuplicateDatabaseError
+        pass
+
+    await engine.dispose()
+    settings.DB_DATABASE = test_db_name
+
+
+@pytest.fixture
+async def db_session(create_test_database, scope="session") -> sessionmaker:
     engine, session = db_connection()
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)

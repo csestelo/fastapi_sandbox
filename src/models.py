@@ -8,6 +8,7 @@ from sqlalchemy import (
     ForeignKey,
     DateTime,
     SmallInteger,
+    UniqueConstraint,
 )
 from sqlalchemy.orm import relationship, declarative_base
 
@@ -16,6 +17,13 @@ Base: Any = declarative_base()
 
 class Customer(Base):
     __tablename__ = "customer"
+    __table_args__ = (
+        UniqueConstraint(
+            "doc_number",
+            "doc_type",
+            name="indent_doc",
+        ),
+    )
 
     id = Column(Integer, primary_key=True)
     display_name = Column(String, nullable=False)
